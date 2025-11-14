@@ -1,0 +1,2 @@
+# Patches for Friisbi Reader
+# Add patches here when needed
