@@ -1,0 +1,86 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block page_content %}
+<div class="friisbi-landing" style="max-width: 1200px; margin: 0 auto; padding: 60px 20px; text-align: center;">
+    
+    <!-- Hero Section -->
+    <div class="hero" style="margin-bottom: 60px;">
+        <h1 style="font-size: 3.5em; font-weight: 700; margin-bottom: 20px; color: #2c3e50;">
+            📰 Friisbi Reader
+        </h1>
+        <p style="font-size: 1.5em; color: #7f8c8d; margin-bottom: 40px;">
+            Your Personal RSS Feed Reader - Flipboard Style
+        </p>
+        <div style="margin-top: 30px;">
+            <a href="/login" class="btn btn-primary btn-lg" style="margin: 10px; padding: 15px 40px; font-size: 1.2em;">
+                🚀 Get Started
+            </a>
+            <a href="/friisbi-home" class="btn btn-outline-primary btn-lg" style="margin: 10px; padding: 15px 40px; font-size: 1.2em;">
+                📚 Browse Feeds
+            </a>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 80px;">
+        
+        <div class="feature-card" style="padding: 30px; border-radius: 10px; background: #f8f9fa;">
+            <div style="font-size: 3em; margin-bottom: 15px;">📡</div>
+            <h3 style="margin-bottom: 15px;">RSS Feeds</h3>
+            <p style="color: #6c757d;">Subscribe to your favorite RSS feeds and stay updated with the latest content.</p>
+        </div>
+
+        <div class="feature-card" style="padding: 30px; border-radius: 10px; background: #f8f9fa;">
+            <div style="font-size: 3em; margin-bottom: 15px;">📚</div>
+            <h3 style="margin-bottom: 15px;">Magazines</h3>
+            <p style="color: #6c757d;">Create custom magazine collections by grouping your favorite feeds together.</p>
+        </div>
+
+        <div class="feature-card" style="padding: 30px; border-radius: 10px; background: #f8f9fa;">
+            <div style="font-size: 3em; margin-bottom: 15px;">💾</div>
+            <h3 style="margin-bottom: 15px;">Save Posts</h3>
+            <p style="color: #6c757d;">Bookmark articles to read later and build your personal reading list.</p>
+        </div>
+
+        <div class="feature-card" style="padding: 30px; border-radius: 10px; background: #f8f9fa;">
+            <div style="font-size: 3em; margin-bottom: 15px;">🔔</div>
+            <h3 style="margin-bottom: 15px;">Subscriptions</h3>
+            <p style="color: #6c757d;">Follow feeds and magazines to get personalized content recommendations.</p>
+        </div>
+
+        <div class="feature-card" style="padding: 30px; border-radius: 10px; background: #f8f9fa;">
+            <div style="font-size: 3em; margin-bottom: 15px;">🔗</div>
+            <h3 style="margin-bottom: 15px;">Share</h3>
+            <p style="color: #6c757d;">Share interesting posts, magazines, and feeds with friends and colleagues.</p>
+        </div>
+
+        <div class="feature-card" style="padding: 30px; border-radius: 10px; background: #f8f9fa;">
+            <div style="font-size: 3em; margin-bottom: 15px;">👥</div>
+            <h3 style="margin-bottom: 15px;">Multi-User</h3>
+            <p style="color: #6c757d;">Every user has their own personalized reading experience and saved content.</p>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div style="margin-top: 80px; padding: 60px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; color: white;">
+        <h2 style="font-size: 2.5em; margin-bottom: 20px;">Ready to get started?</h2>
+        <p style="font-size: 1.2em; margin-bottom: 30px; opacity: 0.9;">Join Friisbi Reader today and organize your reading.</p>
+        <a href="/login" class="btn btn-light btn-lg" style="padding: 15px 50px; font-size: 1.2em;">
+            Sign Up Now
+        </a>
+    </div>
+</div>
+
+<style>
+    .friisbi-landing .feature-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .friisbi-landing .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}

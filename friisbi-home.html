@@ -1,0 +1,91 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block page_content %}
+<div class="friisbi-home" style="max-width: 1400px; margin: 0 auto; padding: 20px;">
+    
+    <!-- Header -->
+    <div class="header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #e9ecef;">
+        <h1 style="font-size: 2.5em; font-weight: 700; color: #2c3e50;">📰 Friisbi Reader</h1>
+        <div class="header-actions">
+            {% if is_logged_in %}
+                <a href="/app/friisbi-feed" class="btn btn-primary">Manage Feeds</a>
+                <a href="/app/friisbi-magazine" class="btn btn-outline-primary" style="margin-left: 10px;">My Magazines</a>
+            {% else %}
+                <a href="/login" class="btn btn-primary">Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Feeds Section -->
+    {% if feeds %}
+    <div class="feeds-section" style="margin-bottom: 40px;">
+        <h2 style="font-size: 1.8em; margin-bottom: 20px; color: #495057;">📡 Available Feeds</h2>
+        <div class="feeds-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+            {% for feed in feeds %}
+            <div class="feed-card" style="padding: 20px; border: 1px solid #dee2e6; border-radius: 8px; background: white; transition: box-shadow 0.3s;">
+                <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #2c3e50;">{{ feed.title }}</h3>
+                {% if feed.description %}
+                <p style="color: #6c757d; margin-bottom: 15px; font-size: 0.9em;">{{ feed.description }}</p>
+                {% endif %}
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="badge badge-primary">{{ feed.category or 'General' }}</span>
+                    <a href="{{ feed.url }}" target="_blank" class="btn btn-sm btn-outline-secondary">Visit Feed</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Posts Section -->
+    <div class="posts-section">
+        <h2 style="font-size: 1.8em; margin-bottom: 20px; color: #495057;">📝 Latest Posts</h2>
+        
+        {% if posts %}
+        <div class="posts-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px;">
+            {% for post in posts %}
+            <article class="post-card" style="border: 1px solid #dee2e6; border-radius: 10px; overflow: hidden; background: white; transition: transform 0.3s, box-shadow 0.3s;">
+                {% if post.image %}
+                <div class="post-image" style="height: 200px; background-image: url('{{ post.image }}'); background-size: cover; background-position: center;"></div>
+                {% endif %}
+                <div class="post-content" style="padding: 20px;">
+                    <h3 style="font-size: 1.4em; margin-bottom: 10px; color: #2c3e50;">
+                        <a href="{{ post.link }}" target="_blank" style="text-decoration: none; color: inherit;">{{ post.title }}</a>
+                    </h3>
+                    {% if post.description %}
+                    <p style="color: #6c757d; margin-bottom: 15px; line-height: 1.6;">{{ post.description[:150] }}...</p>
+                    {% endif %}
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85em; color: #868e96;">
+                        <span>{{ frappe.utils.pretty_date(post.published_date) }}</span>
+                        <a href="{{ post.link }}" target="_blank" class="btn btn-sm btn-primary">Read More →</a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 60px 20px; color: #6c757d;">
+            <div style="font-size: 4em; margin-bottom: 20px;">📭</div>
+            <h3>No posts available yet</h3>
+            <p>Subscribe to feeds to see posts here!</p>
+            {% if is_logged_in %}
+            <a href="/app/friisbi-feed" class="btn btn-primary" style="margin-top: 20px;">Add Feeds</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .feed-card:hover, .post-card:hover {
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        transform: translateY(-3px);
+    }
+    
+    .post-card a:hover h3 {
+        color: #667eea;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block page_content %}
+<div class="friisbi-magazines" style="max-width: 1400px; margin: 0 auto; padding: 20px;">
+    
+    <!-- Header -->
+    <div class="header" style="margin-bottom: 40px; text-align: center;">
+        <h1 style="font-size: 3em; font-weight: 700; color: #2c3e50; margin-bottom: 15px;">📚 Magazines</h1>
+        <p style="font-size: 1.2em; color: #6c757d;">Curated collections of RSS feeds</p>
+        {% if is_logged_in %}
+        <div style="margin-top: 20px;">
+            <a href="/app/friisbi-magazine/new" class="btn btn-primary btn-lg">Create New Magazine</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Magazines Grid -->
+    {% if magazines %}
+    <div class="magazines-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px;">
+        {% for magazine in magazines %}
+        <div class="magazine-card" style="border: 2px solid #dee2e6; border-radius: 15px; padding: 30px; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); transition: all 0.3s; position: relative; overflow: hidden;">
+            
+            <!-- Public Badge -->
+            {% if magazine.is_public %}
+            <span class="badge badge-success" style="position: absolute; top: 15px; right: 15px;">Public</span>
+            {% else %}
+            <span class="badge badge-secondary" style="position: absolute; top: 15px; right: 15px;">Private</span>
+            {% endif %}
+            
+            <div style="margin-bottom: 20px;">
+                <div style="font-size: 3em; margin-bottom: 10px;">📖</div>
+                <h3 style="font-size: 1.8em; color: #2c3e50; margin-bottom: 10px;">{{ magazine.title }}</h3>
+            </div>
+            
+            {% if magazine.description %}
+            <p style="color: #6c757d; margin-bottom: 20px; line-height: 1.6;">{{ magazine.description[:150] }}...</p>
+            {% endif %}
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 15px; border-top: 1px solid #e9ecef;">
+                <div style="color: #868e96; font-size: 0.9em;">
+                    <div><strong>{{ magazine.feeds_count }}</strong> feeds</div>
+                    <div style="margin-top: 5px;">By {{ magazine.created_by }}</div>
+                </div>
+                <div style="color: #868e96; font-size: 0.85em;">
+                    {{ frappe.utils.pretty_date(magazine.creation) }}
+                </div>
+            </div>
+            
+            <div class="magazine-actions" style="display: flex; gap: 10px;">
+                <a href="/app/friisbi-magazine/{{ magazine.name }}" class="btn btn-primary" style="flex: 1;">View Magazine</a>
+                {% if is_logged_in %}
+                <a href="/app/friisbi-user-subscription/new?magazine={{ magazine.name }}" class="btn btn-outline-primary">Subscribe</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 80px 20px; color: #6c757d;">
+        <div style="font-size: 5em; margin-bottom: 20px;">📚</div>
+        <h3>No magazines available yet</h3>
+        <p>Create your first magazine to organize your favorite feeds!</p>
+        {% if is_logged_in %}
+        <a href="/app/friisbi-magazine/new" class="btn btn-primary btn-lg" style="margin-top: 20px;">Create Your First Magazine</a>
+        {% else %}
+        <a href="/login" class="btn btn-primary btn-lg" style="margin-top: 20px;">Login to Create Magazine</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .magazine-card:hover {
+        box-shadow: 0 20px 50px rgba(102, 126, 234, 0.25);
+        transform: translateY(-8px);
+        border-color: #667eea;
+    }
+    
+    .magazine-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    
+    .magazine-card:hover::before {
+        opacity: 1;
+    }
+</style>
+{% endblock %}

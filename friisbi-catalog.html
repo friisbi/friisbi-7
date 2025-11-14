@@ -1,0 +1,66 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block page_content %}
+<div class="friisbi-catalog" style="max-width: 1400px; margin: 0 auto; padding: 20px;">
+    
+    <!-- Header -->
+    <div class="header" style="margin-bottom: 40px; text-align: center;">
+        <h1 style="font-size: 3em; font-weight: 700; color: #2c3e50; margin-bottom: 15px;">📚 Feed Catalog</h1>
+        <p style="font-size: 1.2em; color: #6c757d;">Explore {{ total_feeds }} RSS feeds across different categories</p>
+    </div>
+
+    <!-- Categories -->
+    {% for category, feeds in feeds_by_category.items() %}
+    <div class="category-section" style="margin-bottom: 50px;">
+        <h2 style="font-size: 2em; color: #495057; margin-bottom: 25px; padding-bottom: 10px; border-bottom: 3px solid #667eea;">
+            {{ category }}
+            <span style="font-size: 0.6em; color: #868e96; font-weight: normal;">({{ feeds|length }})</span>
+        </h2>
+        
+        <div class="feeds-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px;">
+            {% for feed in feeds %}
+            <div class="feed-card" style="border: 1px solid #dee2e6; border-radius: 12px; padding: 25px; background: white; transition: all 0.3s;">
+                {% if feed.feed_image %}
+                <div class="feed-image" style="height: 150px; margin: -25px -25px 20px -25px; border-radius: 12px 12px 0 0; background-image: url('{{ feed.feed_image }}'); background-size: cover; background-position: center;"></div>
+                {% endif %}
+                
+                <h3 style="font-size: 1.4em; margin-bottom: 12px; color: #2c3e50;">{{ feed.title }}</h3>
+                
+                {% if feed.description %}
+                <p style="color: #6c757d; margin-bottom: 20px; line-height: 1.6; font-size: 0.95em;">{{ feed.description[:120] }}...</p>
+                {% endif %}
+                
+                <div class="feed-actions" style="display: flex; gap: 10px;">
+                    <a href="{{ feed.url }}" target="_blank" class="btn btn-sm btn-outline-primary" style="flex: 1;">Visit Feed</a>
+                    {% if is_logged_in %}
+                    <a href="/app/friisbi-user-subscription/new?feed={{ feed.name }}" class="btn btn-sm btn-primary">Subscribe</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    
+    {% if not feeds_by_category %}
+    <div style="text-align: center; padding: 80px 20px; color: #6c757d;">
+        <div style="font-size: 5em; margin-bottom: 20px;">📭</div>
+        <h3>No feeds available yet</h3>
+        <p>Check back later or add feeds from the admin panel.</p>
+        {% if is_logged_in %}
+        <a href="/app/friisbi-feed/new" class="btn btn-primary" style="margin-top: 20px;">Add New Feed</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .feed-card:hover {
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+        transform: translateY(-5px);
+        border-color: #667eea;
+    }
+</style>
+{% endblock %}
