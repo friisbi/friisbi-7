@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include friisbi *.css
+recursive-include friisbi *.csv
+recursive-include friisbi *.html
+recursive-include friisbi *.ico
+recursive-include friisbi *.js
+recursive-include friisbi *.json
+recursive-include friisbi *.md
+recursive-include friisbi *.png
+recursive-include friisbi *.py
+recursive-include friisbi *.svg
+recursive-include friisbi *.txt
+recursive-exclude friisbi *.pyc
